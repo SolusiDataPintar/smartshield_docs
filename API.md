@@ -24,14 +24,143 @@ Data Validator API
     - code: 201
       type: JSON
       data:
-        - name: token
+        - name: refreshToken
           type: string
           nullable: false
-        - name: expiredAt
+        - name: accessToken
+          type: string
+          nullable: false
+        - name: refreshTokenExpiredAt
+          type: int64
+          format: unixepoch
+          nullable: false
+        - name: accessTokenExpiredAt
           type: int64
           format: unixepoch
           nullable: false
     - code: 400
+      type: JSON
+      data:
+        - name: code
+          type: int
+          nullable: false
+        - name: message
+          type: string
+          nullable: false
+    - code: 403
+      type: JSON
+      data:
+        - name: code
+          type: int
+          nullable: false
+        - name: message
+          type: string
+          nullable: false
+    - code: 500
+      type: JSON
+      data:
+        - name: code
+          type: int
+          nullable: false
+        - name: message
+          type: string
+          nullable: false
+```
+
+- [ ] Token Authentication
+
+```YAML
+  path: /auth
+  method: POST
+  input:
+    - body:
+      type: JSON
+      data:
+        - name: token
+          type: string
+          nullable: false
+  output:
+    - code: 201
+      type: JSON
+      data:
+        - name: refreshToken
+          type: string
+          nullable: false
+        - name: accessToken
+          type: string
+          nullable: false
+        - name: refreshTokenExpiredAt
+          type: int64
+          format: unixepoch
+          nullable: false
+        - name: accessTokenExpiredAt
+          type: int64
+          format: unixepoch
+          nullable: false
+    - code: 400
+      type: JSON
+      data:
+        - name: code
+          type: int
+          nullable: false
+        - name: message
+          type: string
+          nullable: false
+    - code: 403
+      type: JSON
+      data:
+        - name: code
+          type: int
+          nullable: false
+        - name: message
+          type: string
+          nullable: false
+    - code: 500
+      type: JSON
+      data:
+        - name: code
+          type: int
+          nullable: false
+        - name: message
+          type: string
+          nullable: false
+```
+
+ [ ] Create Authentication Token
+
+```YAML
+  path: /authtoken
+  method: POST
+  header:
+    - name: Authorizations
+      type: string
+      format: JWT
+  input:
+    - body:
+      type: JSON
+      data:
+        - name: note
+          type: string
+          nullable: true
+        - name: expiration
+          type: string
+          nullable: true
+          example: "2021-11-01T14:48:00.000Z"
+          format: RFC3339(YYYY-MM-dd’T’HH:mm:ss.sss’Z’)
+  output:
+    - code: 201
+      type: string
+      description: use this token to sign in at Token Authentication, please save this token because this is the only time the token shown, we do not store your token.
+    - code: 400
+      type: JSON
+      data:
+        - name: code
+          type: int
+          nullable: false
+        - name: message
+          type: string
+          nullable: false
+    - code: 401
       type: JSON
       data:
         - name: code
