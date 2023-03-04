@@ -192,7 +192,7 @@ Record Validator API
 - [ ] Create/Update Record
 
 ```YAML
-  path: /data
+  path: /record
   method: POST
   header:
     - name: Authorizations
@@ -202,7 +202,7 @@ Record Validator API
     - body:
       type: JSON
       data:
-        - name: dataId
+        - name: recordId
           type: string
           nullable: false
         - name: ownerType
@@ -269,7 +269,7 @@ Record Validator API
 - [ ] Record webhook from blockchain
 
 ```YAML
-  path: /data or client request
+  path: /record or client request
   method: POST
   header:
     - name: Authorizations
@@ -283,8 +283,8 @@ Record Validator API
           type: string
           format: UUIDV4
           example: 020d0353-af93-4935-bb4d-54de04aaed57
-          description: UUIDV4 returned when client submit data to blockchain
-        - name: dataId
+          description: UUIDV4 returned when client submit record to blockchain
+        - name: recordId
           type: string
           nullable: false
         - name: ownerType
@@ -298,7 +298,7 @@ Record Validator API
         - name: valid
           type: boolean
           nullable: false
-          description: Indication if data has pass verification check.
+          description: Indication if record has pass verification check.
         - name: status
           type: int
           nullable: false
@@ -325,11 +325,11 @@ Record Validator API
             - name: oldValue
               type: any
               nullable: true
-              description: data before operation applied
+              description: record before operation applied
             - name: newValue
               type: any
               nullable: true
-              description: data after operation applied
+              description: record after operation applied
         - name: timestamp
           type: string
           nullable: true
@@ -378,7 +378,7 @@ Record Validator API
 - [ ] Record verification check
 
 ```YAML
-  path: /data/validate
+  path: /record/validate
   method: POST
   header:
     - name: Authorizations
@@ -388,10 +388,10 @@ Record Validator API
     - body:
       type: JSON
       data:
-        - name: dataId
+        - name: recordId
           type: string
           nullable: false
-        - name: data
+        - name: record
           type: JSON
           nullable: false
         - name: timestamp
@@ -406,7 +406,7 @@ Record Validator API
         - name: valid
           type: boolean
           nullable: false
-          description: Indication if data has pass verification check.
+          description: Indication if record has pass verification check.
         - name: before
           type: JSON
           nullable: true
@@ -429,11 +429,11 @@ Record Validator API
             - name: oldValue
               type: any
               nullable: true
-              description: data before operation applied
+              description: record before operation applied
             - name: newValue
               type: any
               nullable: true
-              description: data after operation applied
+              description: record after operation applied
         - name: timestamp
           type: string
           nullable: true
@@ -480,7 +480,7 @@ Record Validator API
 - [ ] Load One Record
 
 ```YAML
-  path: /data/:dataId
+  path: /record/:recordId
   method: GET
   header:
     - name: Authorizations
@@ -488,14 +488,14 @@ Record Validator API
       format: accessClaim from create access
   input:
     - path:
-      name: dataId
+      name: recordId
       type: string
       nullable: false
   output:
     - code: 200
       type: JSON
       data:
-        - name: dataId
+        - name: recordId
           type: string
           nullable: false
         - name: ownerType
@@ -509,8 +509,8 @@ Record Validator API
         - name: valid
           type: boolean
           nullable: false
-          description: Indication if data has pass verification check.
-        - name: data
+          description: Indication if record has pass verification check.
+        - name: record
           type: JSON
           nullable: false
         - name: invalidPathList
@@ -529,11 +529,11 @@ Record Validator API
             - name: oldValue
               type: any
               nullable: true
-              description: data before operation applied
+              description: record before operation applied
             - name: newValue
               type: any
               nullable: true
-              description: data after operation applied
+              description: record after operation applied
         - name: deltaList
           type: array
           nullable: false
@@ -550,11 +550,11 @@ Record Validator API
             - name: oldValue
               type: any
               nullable: true
-              description: data before operation applied
+              description: record before operation applied
             - name: newValue
               type: any
               nullable: true
-              description: data after operation applied
+              description: record after operation applied
         - name: timestamp
           type: string
           nullable: true
@@ -601,7 +601,7 @@ Record Validator API
 - [ ] Load Record
 
 ```YAML
-  path: /data
+  path: /record
   method: GET
   header:
     - name: Authorizations
@@ -614,7 +614,7 @@ Record Validator API
         - type: array
           nullable: false
           values:
-            - name: dataId
+            - name: recordId
               type: string
               nullable: false
             - name: ownerType
@@ -628,8 +628,8 @@ Record Validator API
             - name: valid
               type: boolean
               nullable: false
-              description: Indication if data has pass verification check.
-            - name: data
+              description: Indication if record has pass verification check.
+            - name: record
               type: JSON
               nullable: false
             - name: invalidPathList
@@ -648,11 +648,11 @@ Record Validator API
                 - name: oldValue
                   type: any
                   nullable: true
-                  description: data before operation applied
+                  description: record before operation applied
                 - name: newValue
                   type: any
                   nullable: true
-                  description: data after operation applied
+                  description: record after operation applied
             - name: deltaList
               type: array
               nullable: false
@@ -669,11 +669,11 @@ Record Validator API
                 - name: oldValue
                   type: any
                   nullable: true
-                  description: data before operation applied
+                  description: record before operation applied
                 - name: newValue
                   type: any
                   nullable: true
-                  description: data after operation applied
+                  description: record after operation applied
             - name: timestamp
               type: string
               nullable: true
