@@ -1,7 +1,7 @@
 # This is documentation about Data Validator API
 
 \
-Data Validator API
+Record Validator API
 
 ## I. Rest API
 
@@ -189,7 +189,7 @@ Data Validator API
           nullable: false
 ```
 
-- [ ] Create/Update Data
+- [ ] Create/Update Record
 
 ```YAML
   path: /data
@@ -266,7 +266,7 @@ Data Validator API
           nullable: false
 ```
 
-- [ ] Data webhook from blockchain
+- [ ] Record webhook from blockchain
 
 ```YAML
   path: /data or client request
@@ -375,7 +375,7 @@ Data Validator API
           nullable: false
 ```
 
-- [ ] Data verification check
+- [ ] Record verification check
 
 ```YAML
   path: /data/validate
@@ -477,7 +477,7 @@ Data Validator API
           nullable: false
 ```
 
-- [ ] Load One Data
+- [ ] Load One Record
 
 ```YAML
   path: /data/:dataId
@@ -598,7 +598,7 @@ Data Validator API
           nullable: false
 ```
 
-- [ ] Load Document
+- [ ] Load Record
 
 ```YAML
   path: /data
