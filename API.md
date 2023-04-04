@@ -629,31 +629,7 @@ Record Validator API
               type: boolean
               nullable: false
               description: Indication if record has pass verification check.
-            - name: record
-              type: JSON
-              nullable: false
             - name: invalidPathList
-              type: array
-              nullable: false
-              values:
-                - name: path
-                  type: string
-                  nullable: false
-                  description: location where verification check failed
-                  example: /a/b/c/d/e
-                - name: operation
-                  type: enum string(“add”, “replace”, “remove”)
-                  nullable: false
-                  description: operation applied to json
-                - name: oldValue
-                  type: any
-                  nullable: true
-                  description: record before operation applied
-                - name: newValue
-                  type: any
-                  nullable: true
-                  description: record after operation applied
-            - name: deltaList
               type: array
               nullable: false
               values:
