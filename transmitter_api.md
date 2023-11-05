@@ -1,14 +1,18 @@
-# This is documentation about Data Validator API
+# This is documentation about Smartshield Transmitter API
+
+## Smartshield Listener is a set list of API developed by Chainsmart
+
+## Client need to call these APIs to submit data change and verification check to the blockchain
 
 \
-Record Validator API
+Record API
 
 ## I. Rest API
 
 - [ ] Authentication
 
 ```YAML
-  path: /auth
+  path: /auth/signin
   method: POST
   input:
     - body:
@@ -17,7 +21,7 @@ Record Validator API
         - name: username
           type: string
           nullable: true
-        - name: passphrase
+        - name: password
           type: string
           nullable: false
   output:
@@ -27,140 +31,22 @@ Record Validator API
         - name: refreshToken
           type: string
           nullable: false
+          format: JWT
         - name: accessToken
           type: string
           nullable: false
-        - name: refreshTokenExpiredAt
-          type: int64
-          format: unixepoch
-          nullable: false
-        - name: accessTokenExpiredAt
-          type: int64
-          format: unixepoch
-          nullable: false
-    - code: 400
-      type: JSON
-      data:
-        - name: code
-          type: int
-          nullable: false
-        - name: message
+          format: JWT
+        - name: accessTokenExpireAt
           type: string
           nullable: false
-    - code: 403
-      type: JSON
-      data:
-        - name: code
-          type: int
-          nullable: false
-        - name: message
-          type: string
-          nullable: false
-    - code: 500
-      type: JSON
-      data:
-        - name: code
-          type: int
-          nullable: false
-        - name: message
-          type: string
-          nullable: false
-```
-
-- [ ] Token Authentication
-
-```YAML
-  path: /auth
-  method: POST
-  input:
-    - body:
-      type: JSON
-      data:
-        - name: token
-          type: string
-          nullable: false
-  output:
-    - code: 201
-      type: JSON
-      data:
-        - name: refreshToken
-          type: string
-          nullable: false
-        - name: accessToken
-          type: string
-          nullable: false
-        - name: refreshTokenExpiredAt
-          type: int64
-          format: unixepoch
-          nullable: false
-        - name: accessTokenExpiredAt
-          type: int64
-          format: unixepoch
-          nullable: false
-    - code: 400
-      type: JSON
-      data:
-        - name: code
-          type: int
-          nullable: false
-        - name: message
-          type: string
-          nullable: false
-    - code: 403
-      type: JSON
-      data:
-        - name: code
-          type: int
-          nullable: false
-        - name: message
-          type: string
-          nullable: false
-    - code: 500
-      type: JSON
-      data:
-        - name: code
-          type: int
-          nullable: false
-        - name: message
-          type: string
-          nullable: false
-```
-
- [ ] Create Authentication Token
-
-```YAML
-  path: /authtoken
-  method: POST
-  header:
-    - name: Authorizations
-      type: string
-      format: JWT
-  input:
-    - body:
-      type: JSON
-      data:
-        - name: note
-          type: string
-          nullable: true
-        - name: expiration
-          type: string
-          nullable: true
-          example: "2021-11-01T14:48:00.000Z"
           format: RFC3339(YYYY-MM-dd’T’HH:mm:ss.sss’Z’)
-  output:
-    - code: 201
-      type: string
-      description: use this token to sign in at Token Authentication, please save this token because this is the only time the token shown, we do not store your token.
-    - code: 400
-      type: JSON
-      data:
-        - name: code
-          type: int
-          nullable: false
-        - name: message
+          example: "2021-11-01T14:48:00.000Z"
+        - name: refreshTokenExpireAt
           type: string
           nullable: false
-    - code: 401
+          format: RFC3339(YYYY-MM-dd’T’HH:mm:ss.sss’Z’)
+          example: "2021-11-01T14:48:00.000Z"
+    - code: 400
       type: JSON
       data:
         - name: code
@@ -189,15 +75,128 @@ Record Validator API
           nullable: false
 ```
 
-- [ ] Create/Update Record
+- [ ] Extend Authentication
+
+```YAML
+  path: /auth/signin
+  method: PUT
+  input:
+    - body:
+      type: JSON
+      data:
+        - name: refreshToken
+          type: string
+          nullable: false
+  output:
+    - code: 201
+      type: JSON
+      data:
+        - name: refreshToken
+          type: string
+          nullable: false
+          format: JWT
+        - name: accessToken
+          type: string
+          nullable: false
+          format: JWT
+        - name: accessTokenExpireAt
+          type: string
+          nullable: false
+          format: RFC3339(YYYY-MM-dd’T’HH:mm:ss.sss’Z’)
+          example: "2021-11-01T14:48:00.000Z"
+        - name: refreshTokenExpireAt
+          type: string
+          nullable: false
+          format: RFC3339(YYYY-MM-dd’T’HH:mm:ss.sss’Z’)
+          example: "2021-11-01T14:48:00.000Z"
+    - code: 400
+      type: JSON
+      data:
+        - name: code
+          type: int
+          nullable: false
+        - name: message
+          type: string
+          nullable: false
+    - code: 403
+      type: JSON
+      data:
+        - name: code
+          type: int
+          nullable: false
+        - name: message
+          type: string
+          nullable: false
+    - code: 500
+      type: JSON
+      data:
+        - name: code
+          type: int
+          nullable: false
+        - name: message
+          type: string
+          nullable: false
+```
+
+- [ ] Delete Authentication
+
+```YAML
+  path: /auth/signin
+  method: DELETE
+  input:
+    - body:
+      type: JSON
+      data:
+        - name: refreshToken
+          type: string
+          nullable: false
+  output:
+    - code: 204
+      description: 204 code returns no content
+    - code: 400
+      type: JSON
+      data:
+        - name: code
+          type: int
+          nullable: false
+        - name: message
+          type: string
+          nullable: false
+    - code: 403
+      type: JSON
+      data:
+        - name: code
+          type: int
+          nullable: false
+        - name: message
+          type: string
+          nullable: false
+    - code: 500
+      type: JSON
+      data:
+        - name: code
+          type: int
+          nullable: false
+        - name: message
+          type: string
+          nullable: false
+```
+
+- [ ] Create/Update/Delete Record
+
+Create: before is null, after has value\
+Update: both before and after has value\
+Delete: before has value, after is null
 
 ```YAML
   path: /record
   method: POST
   header:
-    - name: Authorizations
+    - name: Authorization
       type: string
-      format: JWT
+      format: Bearer {accessToken}
+    - name: Content-Type
+      type: string
   input:
     - body:
       type: JSON
@@ -208,135 +207,66 @@ Record Validator API
         - name: ownerType
           type: string
           nullable: false
-          description: the type of owner id, eg  NIM, NIK, social_number, space are not allowed.
+          description: the type of owner id, eg  NIM, NIK, social number, space character is not allowed.
         - name: ownerId
           type: string
           nullable: false
-          description: submitter responsible to make sure owner id match owner type format.
+          description: submitter has responsibility to make sure owner id match owner type format.
         - name: before
           type: JSON
           nullable: true
+          description: both before and update must not be null
         - name: after
           type: JSON
-          nullable: false
+          nullable: true
         - name: timestamp
           type: string
           nullable: true
           example: "2021-11-01T14:48:00.000Z"
           format: RFC3339(YYYY-MM-dd’T’HH:mm:ss.sss’Z’)
+          description: if not provided, API will add it automatically
+    - body:
+      type: multipart/form-data
+      data:
+        - name: recordId
+          type: string
+          nullable: false
+        - name: ownerType
+          type: string
+          nullable: false
+          description: the type of owner id, eg  NIM, NIK, social number, space character is not allowed.
+        - name: ownerId
+          type: string
+          nullable: false
+          description: submitter has responsibility to make sure owner id match owner type format.
+        - name: before
+          type: array
+          nullable: true
+          values:
+            - name: file
+              type: binary
+              nullable: false
+            - name: metadata
+              type: map
+        - name: after
+          type: array
+          nullable: true
+          values:
+            - name: file
+              type: binary
+              nullable: false
+            - name: metadata
+              type: map
+        - name: timestamp
+          type: string
+          nullable: true
+          example: "2021-11-01T14:48:00.000Z"
+          format: RFC3339(YYYY-MM-dd’T’HH:mm:ss.sss’Z’)
+          description: if not provided, API will add it automatically
   output:
     - code: 201
       type: JSON
       data: UUIDV4
-    - code: 400
-      type: JSON
-      data:
-        - name: code
-          type: int
-          nullable: false
-        - name: message
-          type: string
-          nullable: false
-    - code: 401
-      type: JSON
-      data:
-        - name: code
-          type: int
-          nullable: false
-        - name: message
-          type: string
-          nullable: false
-    - code: 403
-      type: JSON
-      data:
-        - name: code
-          type: int
-          nullable: false
-        - name: message
-          type: string
-          nullable: false
-    - code: 500
-      type: JSON
-      data:
-        - name: code
-          type: int
-          nullable: false
-        - name: message
-          type: string
-          nullable: false
-```
-
-- [ ] Record webhook from blockchain
-
-```YAML
-  path: /record or client request
-  method: POST
-  header:
-    - name: Authorizations
-      type: string
-      format: JWT
-  input:
-    - body:
-      type: JSON
-      data:
-        - name: taskId
-          type: string
-          format: UUIDV4
-          example: 020d0353-af93-4935-bb4d-54de04aaed57
-          description: UUIDV4 returned when client submit record to blockchain
-        - name: recordId
-          type: string
-          nullable: false
-        - name: ownerType
-          type: string
-          nullable: false
-          description: the type of owner id, eg  NIM, NIK, social_number, space are not allowed.
-        - name: ownerId
-          type: string
-          nullable: false
-          description: submitter responsible to make sure owner id match owner type format.
-        - name: valid
-          type: boolean
-          nullable: false
-          description: Indication if record has pass verification check.
-        - name: status
-          type: int
-          nullable: false
-          descritpion: status from blockchain
-        - name: before
-          type: JSON
-          nullable: true
-        - name: after
-          type: JSON
-          nullable: false
-        - name: invalidPathList
-          type: array
-          nullable: false
-          values:
-            - name: path
-              type: string
-              nullable: false
-              description: location where verification check failed
-              example: /a/b/c/d/e
-            - name: operation
-              type: enum string(“add”, “replace”, “remove”)
-              nullable: false
-              description: operation applied to json
-            - name: oldValue
-              type: any
-              nullable: true
-              description: record before operation applied
-            - name: newValue
-              type: any
-              nullable: true
-              description: record after operation applied
-        - name: timestamp
-          type: string
-          nullable: true
-          example: "2021-11-01T14:48:00.000Z"
-          format: RFC3339(YYYY-MM-dd’T’HH:mm:ss.sss’Z’)
-  output:
-    - code: 200-299
     - code: 400
       type: JSON
       data:
@@ -381,9 +311,9 @@ Record Validator API
   path: /record/validate
   method: POST
   header:
-    - name: Authorizations
+    - name: Authorization
       type: string
-      format: JWT
+      format: Bearer {accessToken}
   input:
     - body:
       type: JSON
@@ -391,54 +321,40 @@ Record Validator API
         - name: recordId
           type: string
           nullable: false
-        - name: record
-          type: JSON
-          nullable: false
-        - name: timestamp
-          type: string
-          nullable: true
-          example: "2021-11-01T14:48:00.000Z"
-          format: RFC3339(YYYY-MM-dd’T’HH:mm:ss.sss’Z’)
-  output:
-    - code: 200
-      type: JSON
-      data:
-        - name: valid
-          type: boolean
-          nullable: false
-          description: Indication if record has pass verification check.
         - name: before
           type: JSON
-          nullable: true
-        - name: after
-          type: JSON
           nullable: false
-        - name: invalidPathList
-          type: array
-          nullable: false
-          values:
-            - name: path
-              type: string
-              nullable: false
-              description: location where verification check failed
-              example: /a/b/c/d/e
-            - name: operation
-              type: enum string(“add”, “replace”, “remove”)
-              nullable: false
-              description: operation applied to json
-            - name: oldValue
-              type: any
-              nullable: true
-              description: record before operation applied
-            - name: newValue
-              type: any
-              nullable: true
-              description: record after operation applied
         - name: timestamp
           type: string
           nullable: true
           example: "2021-11-01T14:48:00.000Z"
           format: RFC3339(YYYY-MM-dd’T’HH:mm:ss.sss’Z’)
+          description: if not provided, API will add it automatically
+    - body:
+      type: multipart/form-data
+      data:
+        - name: recordId
+          type: string
+          nullable: false
+        - name: before
+          type: array
+          nullable: true
+          values:
+            - name: file
+              type: binary
+              nullable: false
+            - name: metadata
+              type: map
+        - name: timestamp
+          type: string
+          nullable: true
+          example: "2021-11-01T14:48:00.000Z"
+          format: RFC3339(YYYY-MM-dd’T’HH:mm:ss.sss’Z’)
+          description: if not provided, API will add it automatically
+  output:
+    - code: 201
+      type: JSON
+      data: UUIDV4
     - code: 400
       type: JSON
       data:
@@ -477,15 +393,15 @@ Record Validator API
           nullable: false
 ```
 
-- [ ] Load One Record
+- [ ] Load Single Record
 
 ```YAML
   path: /record/:recordId
   method: GET
   header:
-    - name: Authorizations
+    - name: Authorization
       type: string
-      format: accessClaim from create access
+      format: Bearer {accessToken}
   input:
     - path:
       name: recordId
@@ -513,7 +429,7 @@ Record Validator API
         - name: record
           type: JSON
           nullable: false
-        - name: invalidPathList
+        - name: invalids
           type: array
           nullable: false
           values:
@@ -598,15 +514,15 @@ Record Validator API
           nullable: false
 ```
 
-- [ ] Load Record
+- [ ] Load Records
 
 ```YAML
   path: /record
   method: GET
   header:
-    - name: Authorizations
+    - name: Authorization
       type: string
-      format: accessClaim from create access
+      format: Bearer {accessToken}
   output:
     - code: 200
       type: JSON
