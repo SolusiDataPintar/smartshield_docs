@@ -190,7 +190,7 @@ The alternatives are basic authentication, long token, or OAUTH 2.0.
           nullable: false
 ```
 
-- [ ] Delete Authentication
+- [ ] Records Request
 
 ```YAML
   path: /records(any)
