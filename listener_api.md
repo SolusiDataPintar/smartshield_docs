@@ -195,7 +195,7 @@ The alternatives are basic authentication, long token, or OAUTH 2.0.
 ```YAML
   path: /records(any)
   method: GET(ANY)
-  description: client can change path or methods
+  description: client can change path or methods, for pagination support, if cursor is string, lexical order should be used.
   header:
     - name: Authorization
       type: string
@@ -206,12 +206,41 @@ The alternatives are basic authentication, long token, or OAUTH 2.0.
       data:
         - name: recordIds
           type: array
-          nullable: false
+          nullable: true
           values: string
+          description: if value is provided, after, before, and size should be ignored
+        - name: after
+          type: any
+          nullable: true
+          description: value to get the next page, usually it will be recordId
+        - name: before
+          type: any
+          nullable: false
+          description: value to get the previous page, usually it will be recordId
+        - name: size
+          type: int
+          nullable: true
+          description: "client can decide the default page size, eg: 200 items per page"
+      description: if nothing is provided, the first page will be returned
   output:
     - code: 200
       type: JSON
       data:
+        - name: links
+          type: JSON
+          nullable: false
+          description: if recordIds is provided, this value should not be null
+          values:
+            - name: prev
+              type: string
+              nullable: true
+              description: link to previous page, if recordIds is provided, this should be null
+              example: /records?before=yyy&size=2
+            - name: next
+              type: string
+              nullable: true
+              description: link to next page, if recordIds is provided, this should be null
+              example: /records?after=zzz&size=2
         - type: array
           nullable: false
           values:
@@ -227,6 +256,18 @@ The alternatives are basic authentication, long token, or OAUTH 2.0.
               example: "2021-11-01T14:48:00.000Z"
               format: RFC3339(YYYY-MM-dd’T’HH:mm:ss.sss’Z’)
               descrption: optional
+            - name: meta
+              type: JSON
+              nullable: false
+              values:
+                - name: page
+                  type: JSON
+                  nullable: false
+                  values:
+                    - name: cursor
+                      type: any
+                      nullable: false
+                      description: the value of cursor that will be used to fetch the next or previous page, usually it will be recordId
     - code: 400
       type: JSON
       data:
@@ -236,6 +277,13 @@ The alternatives are basic authentication, long token, or OAUTH 2.0.
         - name: message
           type: string
           nullable: false
+          example: size must be a positive integer; got 0
+        - name: source
+          type: JSON
+          values:
+            - name: parameter
+              type: string
+              example: size
     - code: 401
       type: JSON
       data:
