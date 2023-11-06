@@ -2,9 +2,11 @@
 
 ## SmartShield Listener is a set list of API should be developed by Client
 
-## SmartShiled will call this api if there is a verification request from SmartShield UI
+## SmartShield will call this api if there is a verification request from SmartShield UI
 
-### There are two ways for s
+The Authentication, Extend Authentication, and Delete Authentication is api to secure record endpoints that uses JWT for authentication.\
+\
+The alternatives are basic authentication, long token, or OAUTH 2.0.
 
 - [ ] Authentication
 
@@ -187,6 +189,8 @@
           type: string
           nullable: false
 ```
+
+- [ ] Delete Authentication
 
 ```YAML
   path: /records(any)
