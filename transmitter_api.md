@@ -247,7 +247,7 @@ Delete: before has value, after is null
               type: binary
               nullable: false
             - name: metadata
-              type: map
+              type: JSON
         - name: after
           type: array
           nullable: true
@@ -256,7 +256,7 @@ Delete: before has value, after is null
               type: binary
               nullable: false
             - name: metadata
-              type: map
+              type: JSON
         - name: timestamp
           type: string
           nullable: true
@@ -344,7 +344,7 @@ Delete: before has value, after is null
               type: binary
               nullable: false
             - name: metadata
-              type: map
+              type: JSON
         - name: timestamp
           type: string
           nullable: true

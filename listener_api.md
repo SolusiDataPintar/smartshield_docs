@@ -229,7 +229,7 @@ The alternatives are basic authentication, long token, or OAUTH 2.0.
         - name: links
           type: JSON
           nullable: false
-          description: if recordIds is provided, this value should not be null
+          description: if recordIds is provided, this value should be null
           values:
             - name: prev
               type: string
@@ -256,18 +256,18 @@ The alternatives are basic authentication, long token, or OAUTH 2.0.
               example: "2021-11-01T14:48:00.000Z"
               format: RFC3339(YYYY-MM-dd’T’HH:mm:ss.sss’Z’)
               descrption: optional
-            - name: meta
+        - name: meta
+          type: JSON
+          nullable: false
+          values:
+            - name: page
               type: JSON
               nullable: false
               values:
-                - name: page
-                  type: JSON
-                  nullable: false
-                  values:
-                    - name: cursor
-                      type: any
-                      nullable: false
-                      description: the value of cursor that will be used to fetch the next or previous page, usually it will be recordId
+                - name: cursor
+                  type: any
+                  nullable: true
+                  description: the value of cursor that will be used to fetch the next or previous page, usually it will be recordId
     - code: 400
       type: JSON
       data:
