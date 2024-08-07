@@ -1,6 +1,6 @@
 # This is documentation about Smartshield Transmitter API
 
-## Smartshield Listener is a set list of API developed by Chainsmart
+## Smartshield Transmitter is a set list of API developed by Chainsmart
 
 ## Client need to call these APIs to submit data change and verification check to the blockchain
 
